@@ -117,10 +117,29 @@ public class AplicacionUsuarios {
 	}
 
 	public void cambiarContraseña(String nombreUsuario, String nuevaContraseña) {
+		JSONArray jsonArray=obtenerUsuariosJson();
+		JSONObject jsonObject = null;
+		if(jsonArray!=null){
+			for (int i=0;i<jsonArray.size();i++){
+				JSONObject objectInArray = (JSONObject) jsonArray.get(i);
+				if(objectInArray.get("Nombre").equals(nombreUsuario)){
+					jsonObject.replace("Contraseña",nuevaContraseña);
+					i= jsonArray.size();
+				}
+			}
 
+		}
 	}
 
 	public void borrarUsuario(String nombreUsuario) {
+		JSONArray jsonArray=obtenerUsuariosJson();
+		int posicion=obtenerPosicionUsuario(nombreUsuario,jsonArray);
+		jsonArray.remove(posicion);
+		try (FileWriter fw = new FileWriter(RUTA_FICHERO)){
+			jsonArray.writeJSONString(fw);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
 	}
 
