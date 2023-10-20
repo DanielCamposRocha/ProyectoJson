@@ -1,6 +1,6 @@
 package gui;
 
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import model.AplicacionUsuarios;
+import validaciones.Validaciones;
 
 public class VentanaCrearUsuario extends JFrame implements ActionListener {
 
@@ -101,14 +102,16 @@ public class VentanaCrearUsuario extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(btnCrear)){
-			app.crearUsuario(textoNombre.getText(),textoContraseña.getText(),textoEdad.getText(),textoCorreo.getText());
-			textoNombre.setText("");
-			textoContraseña.setText("");
-			textoEdad.setText("");
-			textoCorreo.setText("");
+			int edadV=Validaciones.validarEdad(textoEdad.getText());
+			String nombre= Validaciones.validarNombre(textoNombre.getText());
+			String email=textoCorreo.getText();
+			if(edadV!=-1  && nombre.length()>0 && Validaciones.emailIsValid(email)){
+				app.crearUsuario(nombre,textoContraseña.getText(),textoEdad.getText(),email);
+				this.dispose();
+			}
 		}
 		if(e.getSource().equals(btnCancelar)){
-
+			this.dispose();
 		}
 	}
 }

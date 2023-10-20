@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.Iterator;
 
@@ -74,7 +75,11 @@ public class AplicacionUsuarios {
 	}
 
 	public void iniciarSesion(String nombreUsuario, String contraseñaUsuario) {
-
+		JSONObject usuario=obtenerUsuarioJson(nombreUsuario);
+		if(usuario.get("Contraseña").equals(contraseñaUsuario)){
+			VentanaMenuUsuario menu=new VentanaMenuUsuario(this,nombreUsuario);
+			menu.setVisible(true);
+		}
 	}
 
 	public void cerrarSesion() {
@@ -99,8 +104,8 @@ public class AplicacionUsuarios {
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-		}else{
-			System.out.println("Ya existe un usuario con ese nombre");
+		}else {
+			JOptionPane.showMessageDialog(null, "Ya existe un usuario con ese nombre");
 		}
 	}
 

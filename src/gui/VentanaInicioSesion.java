@@ -80,8 +80,8 @@ public class VentanaInicioSesion extends JFrame implements ActionListener {
 			app.mostrarVentanaCrearUsuario();
 		}
 		if(e.getSource().equals(btnIniciarSesion)){
-			VentanaMenuUsuario menu=new VentanaMenuUsuario(app,textoUsuario.getText());
-			menu.setVisible(true);
+			app.iniciarSesion(textoUsuario.getText(),textoContraseña.getText());
+
 		}
 	}
 }
