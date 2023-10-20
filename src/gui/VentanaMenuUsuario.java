@@ -74,7 +74,12 @@ public class VentanaMenuUsuario extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		if(e.getSource().equals(btnVerDatos)){
+			app.mostrarVentanaVerUsuario(nombreUsuario);
+		}
+		if(e.getSource().equals(btnCerrarSesion)){
+			this.dispose();
+		}
 	}
 
 }

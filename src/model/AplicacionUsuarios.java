@@ -74,12 +74,19 @@ public class AplicacionUsuarios {
 		ventanaInicioSesion.setVisible(true);
 	}
 
-	public void iniciarSesion(String nombreUsuario, String contraseñaUsuario) {
+	public void iniciarSesion(String nombreUsuario, String contrasenhaUsuario) {
 		JSONObject usuario=obtenerUsuarioJson(nombreUsuario);
-		if(usuario.get("Contraseña").equals(contraseñaUsuario)){
-			VentanaMenuUsuario menu=new VentanaMenuUsuario(this,nombreUsuario);
-			menu.setVisible(true);
-		}
+		if(usuario!=null) {
+			if (usuario.get("Contraseña").equals(contrasenhaUsuario)) {
+				ventanaInicioSesion.setTextoUsuario("");
+				ventanaInicioSesion.setTextoContraseña("");
+				VentanaMenuUsuario menu = new VentanaMenuUsuario(this, nombreUsuario);
+				menu.setVisible(true);
+
+			} else {
+				JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecta");
+			}
+		}else{JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecta");}
 	}
 
 	public void cerrarSesion() {
@@ -123,7 +130,10 @@ public class AplicacionUsuarios {
 	}
 
 	public void mostrarVentanaVerUsuario(String nombreUsuario) {
-
+		JSONObject jsonObject=obtenerUsuarioJson(nombreUsuario);
+		VentanaVerUsuario ventanaVerUsuario=new VentanaVerUsuario(this,nombreUsuario,
+				String.valueOf(jsonObject.get("Edad")),String.valueOf(jsonObject.get("Correo")));
+		ventanaVerUsuario.setVisible(true);
 	}
 
 	public void mostrarVentanaCambiarContraseña(String nombreUsuario) {

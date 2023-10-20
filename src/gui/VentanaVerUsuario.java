@@ -88,6 +88,6 @@ public class VentanaVerUsuario extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		if(e.getSource().equals(btnVolver))this.dispose();
 	}
 }

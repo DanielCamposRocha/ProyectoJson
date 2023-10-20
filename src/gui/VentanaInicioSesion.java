@@ -74,10 +74,20 @@ public class VentanaInicioSesion extends JFrame implements ActionListener {
 		contentPane.add(btnCrearNuevoUsuario);
 	}
 
+
+	public void setTextoUsuario(String s) {
+		 textoUsuario.setText(s);
+	}
+
+	public void setTextoContraseña(String s) {
+		textoContraseña.setText(s);
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(btnCrearNuevoUsuario)){
 			app.mostrarVentanaCrearUsuario();
+
 		}
 		if(e.getSource().equals(btnIniciarSesion)){
 			app.iniciarSesion(textoUsuario.getText(),textoContraseña.getText());
