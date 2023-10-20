@@ -15,7 +15,7 @@ public class Validaciones {
             if(idade<0 | idade>125)throw new EdadFormatException("La edad introducida no es valida recuerde introduzca un numero entre 0 y 125") ;
             else edad=idade;
         } catch (EdadFormatException e){
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, e.getMessage());
         } catch (NumberFormatException e){
             JOptionPane.showMessageDialog(null, "Edad no Válida: recuerde debe ser valores numericos");
         }
@@ -28,7 +28,7 @@ public class Validaciones {
             if(!text.trim().isEmpty() && text.length()<50)nombre=text;
             else throw new NombreFormatException("El nombre no puede estar vacio ni pasar de 50 caracteres");
         }catch (NombreFormatException e){
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return nombre;
     }

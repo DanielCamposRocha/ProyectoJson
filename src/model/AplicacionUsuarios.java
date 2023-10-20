@@ -13,7 +13,6 @@ import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
 import java.io.*;
-import java.util.Iterator;
 
 public class AplicacionUsuarios {
 
@@ -80,17 +79,20 @@ public class AplicacionUsuarios {
 			if (usuario.get("Contraseña").equals(contrasenhaUsuario)) {
 				ventanaInicioSesion.setTextoUsuario("");
 				ventanaInicioSesion.setTextoContraseña("");
-				VentanaMenuUsuario menu = new VentanaMenuUsuario(this, nombreUsuario);
-				menu.setVisible(true);
+				ventanaMenuUsuario = new VentanaMenuUsuario(this, nombreUsuario);
+				ventanaMenuUsuario.setVisible(true);
 
 			} else {
 				JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecta");
 			}
-		}else{JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecta");}
+		}else{JOptionPane.showMessageDialog(null, "El usuario no existe");}
 	}
 
 	public void cerrarSesion() {
-
+		if(ventanaMenuUsuario!=null)ventanaMenuUsuario.dispose();
+		if(ventanaVerUsuario!=null)ventanaVerUsuario.dispose();
+		if(ventanaBorrarUsuario!=null)ventanaBorrarUsuario.dispose();
+		if(ventanaCambiarContraseña!=null)ventanaCambiarContraseña.dispose();
 	}
 
 	public void crearUsuario(String nombre, String contraseña, String edad, String correo) {
@@ -106,11 +108,7 @@ public class AplicacionUsuarios {
 				json.put("Correo", correo);
 
 			arrayUsuarios.add(json);
-			try (FileWriter fw = new FileWriter(RUTA_FICHERO)){
-				arrayUsuarios.writeJSONString(fw);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
+			escribirJSONArray(arrayUsuarios);
 		}else {
 			JOptionPane.showMessageDialog(null, "Ya existe un usuario con ese nombre");
 		}
@@ -118,48 +116,56 @@ public class AplicacionUsuarios {
 
 	public void cambiarContraseña(String nombreUsuario, String nuevaContraseña) {
 		JSONArray jsonArray=obtenerUsuariosJson();
-		JSONObject jsonObject = null;
 		if(jsonArray!=null){
 			for (int i=0;i<jsonArray.size();i++){
 				JSONObject objectInArray = (JSONObject) jsonArray.get(i);
 				if(objectInArray.get("Nombre").equals(nombreUsuario)){
-					jsonObject.replace("Contraseña",nuevaContraseña);
+					objectInArray.replace("Contraseña",nuevaContraseña);
 					i= jsonArray.size();
 				}
 			}
-
+			escribirJSONArray(jsonArray);
 		}
+		cerrarSesion();
 	}
 
 	public void borrarUsuario(String nombreUsuario) {
 		JSONArray jsonArray=obtenerUsuariosJson();
 		int posicion=obtenerPosicionUsuario(nombreUsuario,jsonArray);
 		jsonArray.remove(posicion);
-		try (FileWriter fw = new FileWriter(RUTA_FICHERO)){
-			jsonArray.writeJSONString(fw);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-
+		escribirJSONArray(jsonArray);
+		cerrarSesion();
 	}
 
 	public void mostrarVentanaCrearUsuario() {
-		VentanaCrearUsuario ventanaCrearUsuario=new VentanaCrearUsuario(this);
+		ventanaCrearUsuario=new VentanaCrearUsuario(this);
 		ventanaCrearUsuario.setVisible(true);
 	}
 
 	public void mostrarVentanaVerUsuario(String nombreUsuario) {
 		JSONObject jsonObject=obtenerUsuarioJson(nombreUsuario);
-		VentanaVerUsuario ventanaVerUsuario=new VentanaVerUsuario(this,nombreUsuario,
+		ventanaVerUsuario=new VentanaVerUsuario(this,nombreUsuario,
 				String.valueOf(jsonObject.get("Edad")),String.valueOf(jsonObject.get("Correo")));
 		ventanaVerUsuario.setVisible(true);
 	}
 
 	public void mostrarVentanaCambiarContraseña(String nombreUsuario) {
+		ventanaCambiarContraseña=new VentanaCambiarContraseña(this,nombreUsuario);
+		ventanaCambiarContraseña.setVisible(true);
 
 	}
 
 	public void mostrarVentanaBorrarUsuario(String nombreUsuario) {
+		ventanaBorrarUsuario=new VentanaBorrarUsuario(this,nombreUsuario);
+		ventanaBorrarUsuario.setVisible(true);
 
+	}
+
+	public void escribirJSONArray(JSONArray jsonArray){
+		try (FileWriter fw = new FileWriter(RUTA_FICHERO)){
+			jsonArray.writeJSONString(fw);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "No se ha podido escribir en el archivo");
+		}
 	}
 }

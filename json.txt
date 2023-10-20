@@ -1,1 +1,1 @@
-[{"Nombre":"dani","Correo":"asd@gmail.com","Edad":54,"Contraseña":"asd"},{"Nombre":"Paco","Correo":"paco@sosa.com","Edad":23,"Contraseña":"paco"}]
+[{"Nombre":"dani","Correo":"asd@gmail.com","Edad":54,"Contraseña":"asd"},{"Nombre":"antonio","Correo":"asd@gmail.com","Edad":25,"Contraseña":"patata"},{"Nombre":"jose","Correo":"asd@gmai.com","Edad":23,"Contraseña":"casa"}]

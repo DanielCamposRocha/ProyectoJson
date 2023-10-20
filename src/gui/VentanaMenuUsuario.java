@@ -77,8 +77,14 @@ public class VentanaMenuUsuario extends JFrame implements ActionListener {
 		if(e.getSource().equals(btnVerDatos)){
 			app.mostrarVentanaVerUsuario(nombreUsuario);
 		}
+		if(e.getSource().equals(btnCambiarContraseña)){
+			app.mostrarVentanaCambiarContraseña(nombreUsuario);
+		}
 		if(e.getSource().equals(btnCerrarSesion)){
-			this.dispose();
+			app.cerrarSesion();
+		}
+		if(e.getSource().equals(btnBorrarUsuario)){
+			app.mostrarVentanaBorrarUsuario(nombreUsuario);
 		}
 	}
 
